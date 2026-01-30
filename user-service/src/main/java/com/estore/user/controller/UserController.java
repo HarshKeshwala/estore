@@ -7,6 +7,7 @@ import com.estore.user.mapper.UserMapper;
 import com.estore.user.repository.UserRepository;
 import com.estore.user.service.UserService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
@@ -40,7 +41,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserResponse> getUserById(@PathVariable Long id) {
+    public ResponseEntity<UserResponse> getUserById(@Positive @PathVariable Long id) {
 
         User user  = this.userService.getById(id);
         if  (user == null) {
@@ -50,7 +51,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUserById(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteUserById(@Positive @PathVariable Long id) {
         this.userService.delete(id);
         return ResponseEntity.ok().build();
     }
