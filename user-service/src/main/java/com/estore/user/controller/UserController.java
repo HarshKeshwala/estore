@@ -6,13 +6,15 @@ import com.estore.user.entity.User;
 import com.estore.user.mapper.UserMapper;
 import com.estore.user.repository.UserRepository;
 import com.estore.user.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/users")
 public class UserController {
 
@@ -25,7 +27,7 @@ public class UserController {
     }
 
     @PostMapping()
-    public ResponseEntity<String> register(@RequestBody UserRegisterRequest userRegisterRequest) {
+    public ResponseEntity<?> register(@Valid @RequestBody UserRegisterRequest userRegisterRequest) {
         User user = this.userMapper.toEntity(userRegisterRequest);
         this.userService.save(user);
         return ResponseEntity.ok("User registered successfully");
