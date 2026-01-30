@@ -64,4 +64,20 @@ public class GlobalExceptionHandler {
         );
         return ResponseEntity.badRequest().body(response);
     }
+
+    // fallback handler for unexpected errors
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleGenericException(Exception ex) {
+
+        ErrorResponse response = new ErrorResponse(
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                "Internal server error",
+                Map.of(),
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(response);
+    }
 }
