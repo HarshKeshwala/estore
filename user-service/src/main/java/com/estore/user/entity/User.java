@@ -5,7 +5,11 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "users")
+@Table(
+        name = "users",
+        uniqueConstraints = @UniqueConstraint(name = "uk_user_email", columnNames = "email"),
+        indexes = @Index(name = "idx_user_email", columnList = "email")
+)
 public class User {
 
     @Id
