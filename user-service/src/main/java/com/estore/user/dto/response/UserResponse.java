@@ -1,4 +1,7 @@
 package com.estore.user.dto.response;
 
-public class UserResponse {
-}
+public record UserResponse(
+        String email,
+        String firstName,
+        String lastName)
+{}

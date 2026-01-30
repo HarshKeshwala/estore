@@ -18,12 +18,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean save(UserRegisterRequest userRegisterRequest) {
-        User user = new User();
-        user.setEmail(userRegisterRequest.email());
-        user.setPassword(userRegisterRequest.password());
-        user.setFirstName(userRegisterRequest.firstName());
-        user.setLastName(userRegisterRequest.lastName());
+    public boolean save(User user) {
        this.userRepository.saveAndFlush(user);
        return true;
     }

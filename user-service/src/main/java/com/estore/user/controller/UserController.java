@@ -1,7 +1,10 @@
 package com.estore.user.controller;
 
 import com.estore.user.dto.request.UserRegisterRequest;
+import com.estore.user.dto.response.UserResponse;
 import com.estore.user.entity.User;
+import com.estore.user.mapper.UserMapper;
+import com.estore.user.repository.UserRepository;
 import com.estore.user.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -14,32 +17,34 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final UserMapper userMapper;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, UserMapper userMapper) {
         this.userService = userService;
+        this.userMapper = userMapper;
     }
 
     @PostMapping()
     public ResponseEntity<String> register(@RequestBody UserRegisterRequest userRegisterRequest) {
-        this.userService.save(userRegisterRequest);
+        User user = this.userMapper.toEntity(userRegisterRequest);
+        this.userService.save(user);
         return ResponseEntity.ok("User registered successfully");
     }
 
     @GetMapping()
     public ResponseEntity<List<User>> getAll() {
-
         List<User> users = this.userService.getAll();
         return ResponseEntity.ok(users);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+    public ResponseEntity<UserResponse> getUserById(@PathVariable Long id) {
 
         User user  = this.userService.getById(id);
         if  (user == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(this.userMapper.toDto(user));
     }
 
     @DeleteMapping("/{id}")
