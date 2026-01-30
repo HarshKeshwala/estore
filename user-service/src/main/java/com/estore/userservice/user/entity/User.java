@@ -1,4 +1,4 @@
-package com.estore.user.entity;
+package com.estore.userservice.user.entity;
 
 import jakarta.persistence.*;
 

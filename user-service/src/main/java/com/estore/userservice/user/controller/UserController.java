@@ -1,16 +1,13 @@
-package com.estore.user.controller;
+package com.estore.userservice.user.controller;
 
-import com.estore.user.dto.request.UserRegisterRequest;
-import com.estore.user.dto.response.UserResponse;
-import com.estore.user.entity.User;
-import com.estore.user.mapper.UserMapper;
-import com.estore.user.repository.UserRepository;
-import com.estore.user.service.UserService;
+import com.estore.userservice.user.dto.request.UserRegisterRequest;
+import com.estore.userservice.user.dto.response.UserResponse;
+import com.estore.userservice.user.entity.User;
+import com.estore.userservice.user.mapper.UserMapper;
+import com.estore.userservice.user.service.UserService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

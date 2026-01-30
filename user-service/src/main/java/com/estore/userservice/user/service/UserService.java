@@ -1,7 +1,6 @@
-package com.estore.user.service;
+package com.estore.userservice.user.service;
 
-import com.estore.user.dto.request.UserRegisterRequest;
-import com.estore.user.entity.User;
+import com.estore.userservice.user.entity.User;
 import java.util.List;
 
 public interface UserService {

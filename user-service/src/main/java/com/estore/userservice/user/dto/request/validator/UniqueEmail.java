@@ -1,4 +1,4 @@
-package com.estore.user.dto.request.validator;
+package com.estore.userservice.user.dto.request.validator;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

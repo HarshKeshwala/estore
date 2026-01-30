@@ -1,10 +1,8 @@
-package com.estore.user.exception;
+package com.estore.userservice.common.exception;
 
-import com.estore.user.dto.response.ErrorResponse;
-import jakarta.validation.ConstraintViolationException;
+import com.estore.userservice.user.dto.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;

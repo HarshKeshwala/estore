@@ -1,9 +1,8 @@
-package com.estore.user.service.impl;
+package com.estore.userservice.user.service.impl;
 
-import com.estore.user.dto.request.UserRegisterRequest;
-import com.estore.user.entity.User;
-import com.estore.user.repository.UserRepository;
-import com.estore.user.service.UserService;
+import com.estore.userservice.user.entity.User;
+import com.estore.userservice.user.repository.UserRepository;
+import com.estore.userservice.user.service.UserService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

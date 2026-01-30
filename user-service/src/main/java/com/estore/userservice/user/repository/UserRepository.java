@@ -1,6 +1,6 @@
-package com.estore.user.repository;
+package com.estore.userservice.user.repository;
 
-import com.estore.user.entity.User;
+import com.estore.userservice.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

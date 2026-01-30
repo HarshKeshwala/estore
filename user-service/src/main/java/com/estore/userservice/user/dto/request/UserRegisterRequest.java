@@ -1,6 +1,6 @@
-package com.estore.user.dto.request;
+package com.estore.userservice.user.dto.request;
 
-import com.estore.user.dto.request.validator.UniqueEmail;
+import com.estore.userservice.user.dto.request.validator.UniqueEmail;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 

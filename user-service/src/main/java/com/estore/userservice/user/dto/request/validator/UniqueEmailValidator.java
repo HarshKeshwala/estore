@@ -1,6 +1,6 @@
-package com.estore.user.dto.request.validator;
+package com.estore.userservice.user.dto.request.validator;
 
-import com.estore.user.repository.UserRepository;
+import com.estore.userservice.user.repository.UserRepository;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 

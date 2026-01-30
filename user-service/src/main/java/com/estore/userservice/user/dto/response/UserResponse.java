@@ -1,4 +1,4 @@
-package com.estore.user.dto.response;
+package com.estore.userservice.user.dto.response;
 
 public record UserResponse(
         String email,
