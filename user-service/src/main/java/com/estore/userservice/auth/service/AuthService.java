@@ -1,14 +1,16 @@
 package com.estore.userservice.auth.service;
 
-import com.estore.userservice.auth.dto.request.AuthRequest;
+import com.estore.userservice.auth.dto.request.UserSigninRequest;
+import com.estore.userservice.auth.dto.request.UserRegisterRequest;
 import com.estore.userservice.auth.dto.response.AuthResponse;
 import com.estore.userservice.auth.security.CustomUserDetails;
-import com.estore.userservice.user.dto.request.UserRegisterRequest;
 import com.estore.userservice.user.entity.User;
 import com.estore.userservice.user.repository.UserRepository;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -31,14 +33,8 @@ public class AuthService {
         this.authenticationManager = authenticationManager;
     }
 
-
-
     // register a new user
     public ResponseEntity<?> register(UserRegisterRequest request) {
-        // check if user already exists
-        if (userRepository.existsByEmail(request.email())) {
-            throw new RuntimeException("Email already registered");
-        }
 
         // Create new user
         User user = new User();
@@ -48,16 +44,11 @@ public class AuthService {
         user.setLastName(request.lastName());
         userRepository.save(user);
 
-//        // Generate tokens
-//        CustomUserDetails userDetails = new CustomUserDetails(user);
-//        String accessToken = jwtService.generateToken(userDetails);
-//        String refreshToken = jwtService.generateRefreshToken(userDetails);
-
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
     // authenticate user and generate jwt token
-    public AuthResponse authenticate(AuthRequest request) {
+    public AuthResponse authenticate(UserSigninRequest request) {
         // Authenticate user
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -66,15 +57,13 @@ public class AuthService {
                 )
         );
 
-        System.out.println("RIGHT BEFORE -----------> ");
-        // Load user details
+        // load user details
         User user = userRepository.findByEmail(request.email())
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        System.out.println("RIGHT AFTER -----------> ");
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        // translate to custom UserDetails
         CustomUserDetails userDetails = new CustomUserDetails(user);
 
-        // Generate tokens
+        // generate tokens
         String accessToken = jwtService.generateToken(userDetails);
         String refreshToken = jwtService.generateRefreshToken(userDetails);
 
@@ -83,12 +72,12 @@ public class AuthService {
 
     // refresh access token
     public AuthResponse refreshToken(String refreshToken) {
-        // Extract username from refresh token
+        // extract username from refresh token
         String userEmail = jwtService.extractUsername(refreshToken);
 
-        // Load user
+        // load user
         User user = userRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         CustomUserDetails userDetails = new CustomUserDetails(user);
 

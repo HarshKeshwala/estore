@@ -1,9 +1,9 @@
 package com.estore.userservice.auth.controller;
 
-import com.estore.userservice.auth.dto.request.AuthRequest;
+import com.estore.userservice.auth.dto.request.UserSigninRequest;
+import com.estore.userservice.auth.dto.request.UserRegisterRequest;
 import com.estore.userservice.auth.dto.response.AuthResponse;
 import com.estore.userservice.auth.service.AuthService;
-import com.estore.userservice.user.dto.request.UserRegisterRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,8 +24,8 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResponse> login(@Valid @RequestBody AuthRequest authRequest){
-        return ResponseEntity.ok(authService.authenticate(authRequest));
+    public ResponseEntity<AuthResponse> login(@Valid @RequestBody UserSigninRequest userSigninRequest){
+        return ResponseEntity.ok(authService.authenticate(userSigninRequest));
     }
 
     @PostMapping("/refresh")
