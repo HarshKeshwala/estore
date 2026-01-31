@@ -65,28 +65,17 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(response);
     }
 
-    @ExceptionHandler(BadCredentialsException.class)
+    @ExceptionHandler({
+            BadCredentialsException.class,
+            UsernameNotFoundException.class
+    })
     public ResponseEntity<ErrorResponse> handleBadCredentialsException(
             BadCredentialsException ex) {
 
         ErrorResponse errorResponse = new ErrorResponse(
                 HttpStatus.UNAUTHORIZED.value(),
                 "invalid email or password",
-                null,
-                LocalDateTime.now()
-        );
-
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
-    }
-
-    @ExceptionHandler(UsernameNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleUsernameNotFoundException(
-            UsernameNotFoundException ex) {
-
-        ErrorResponse errorResponse = new ErrorResponse(
-                HttpStatus.UNAUTHORIZED.value(),
-                "invalid email or password",
-                null,
+                Map.of(),
                 LocalDateTime.now()
         );
 
@@ -99,7 +88,7 @@ public class GlobalExceptionHandler {
 
         ErrorResponse response = new ErrorResponse(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                "Internal server error",
+                "internal server error",
                 Map.of(),
                 LocalDateTime.now()
         );
