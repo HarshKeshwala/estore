@@ -163,24 +163,9 @@ Services are deployed to a kind (Kubernetes IN Docker) cluster.
 ## Local Development
 
 ### Run Services Locally
+### Build and load images, Deploy to Kind
 
 ```bash
-# Start Kafka
-docker-compose up -d
-
-# Start services (in separate terminals)
-cd user-service && mvn spring-boot:run
-cd product-service && mvn spring-boot:run
-cd order-service && mvn spring-boot:run
-cd api-gateway && mvn spring-boot:run
-```
-
-### Deploy to Kind
-
-```bash
-# Build and load images
-./build-images.sh
-
-# Deploy
-kubectl apply -f k8s/
+# Build and load images, deploy to kind
+./deploy-kind.sh
 ```

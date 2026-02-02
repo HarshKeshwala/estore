@@ -88,7 +88,26 @@ EOF
 build_jars() {
     echo_info "Building service JARs..."
 
-    ./mvnw clean package -DskipTests -q
+    # ./mvnw clean package -DskipTests -q
+    echo "Building user-service..."
+    cd user-service
+    ./mvnw clean package -DskipTests
+    cd ..
+
+    echo "Building product-service..."
+    cd product-service
+    ./mvnw clean package -DskipTests
+    cd ..
+
+    echo "Building order-service..."
+    cd order-service
+    ./mvnw clean package -DskipTests
+    cd ..
+
+    echo "Building api-gateway..."
+    cd api-gateway
+    ./mvnw clean package -DskipTests
+    cd ..
 
     echo_info "JARs built successfully."
 }
