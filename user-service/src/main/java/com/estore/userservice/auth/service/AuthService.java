@@ -4,6 +4,7 @@ import com.estore.userservice.auth.dto.request.UserSigninRequest;
 import com.estore.userservice.auth.dto.request.UserRegisterRequest;
 import com.estore.userservice.auth.dto.response.AuthResponse;
 import com.estore.userservice.auth.security.CustomUserDetails;
+import com.estore.userservice.user.entity.Role;
 import com.estore.userservice.user.entity.User;
 import com.estore.userservice.user.repository.UserRepository;
 import jakarta.validation.Valid;
@@ -36,12 +37,13 @@ public class AuthService {
     // register a new user
     public ResponseEntity<?> register(UserRegisterRequest request) {
 
-        // Create new user
+        // Create new user with default USER role
         User user = new User();
         user.setEmail(request.email());
         user.setPassword(passwordEncoder.encode(request.password()));
         user.setFirstName(request.firstName());
         user.setLastName(request.lastName());
+        user.setRole(Role.USER);
         userRepository.save(user);
 
         return ResponseEntity.noContent().build();

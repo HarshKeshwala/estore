@@ -25,7 +25,11 @@ public class User {
     private String firstName;
     private String lastName;
 
-    private LocalDateTime createdAt =  LocalDateTime.now();
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role = Role.USER;
+
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     // setters & getters
     public Long getId() {
@@ -66,5 +70,13 @@ public class User {
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }
