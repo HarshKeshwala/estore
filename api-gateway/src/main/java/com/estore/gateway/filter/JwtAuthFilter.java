@@ -18,6 +18,10 @@ import java.nio.charset.StandardCharsets;
 @Component
 public class JwtAuthFilter {
 
+    public static final String USER_ID_ATTR = "X-User-Id";
+    public static final String USER_EMAIL_ATTR = "X-User-Email";
+    public static final String USER_ROLE_ATTR = "X-User-Role";
+
     private final JwtProperties jwtProperties;
 
     public JwtAuthFilter(JwtProperties jwtProperties) {
@@ -42,11 +46,11 @@ public class JwtAuthFilter {
                 String userEmail = claims.get("userEmail", String.class);
                 String role = claims.get("role", String.class);
 
-                // Create a modified request with user info headers
+                // Use request attributes instead of headers to pass user info to ProxyHandler
                 ServerRequest modifiedRequest = ServerRequest.from(request)
-                        .header("X-User-Id", userId != null ? userId.toString() : "")
-                        .header("X-User-Email", userEmail != null ? userEmail : "")
-                        .header("X-User-Role", role != null ? role : "")
+                        .attribute(USER_ID_ATTR, userId != null ? userId.toString() : "")
+                        .attribute(USER_EMAIL_ATTR, userEmail != null ? userEmail : "")
+                        .attribute(USER_ROLE_ATTR, role != null ? role : "")
                         .build();
 
                 return next.handle(modifiedRequest);

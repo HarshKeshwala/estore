@@ -19,6 +19,9 @@ spec:
           imagePullPolicy: Never
           ports:
             - containerPort: 8081
+          envFrom:
+            - configMapRef:
+                name: estore-config
           env:
             - name: JWT_SECRET
               valueFrom:

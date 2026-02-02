@@ -1,6 +1,7 @@
 package com.estore.gateway.handler;
 
 import com.estore.gateway.config.GatewayConfig;
+import com.estore.gateway.filter.JwtAuthFilter;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserters;
@@ -41,6 +42,11 @@ public class ProxyHandler {
         String targetUrl = baseUrl + path;
         HttpMethod method = request.method();
 
+        // Read user info from request attributes (set by JwtAuthFilter)
+        String userId = request.attribute(JwtAuthFilter.USER_ID_ATTR).map(Object::toString).orElse(null);
+        String userEmail = request.attribute(JwtAuthFilter.USER_EMAIL_ATTR).map(Object::toString).orElse(null);
+        String userRole = request.attribute(JwtAuthFilter.USER_ROLE_ATTR).map(Object::toString).orElse(null);
+
         WebClient.RequestBodySpec requestSpec = webClient.method(method)
                 .uri(targetUrl)
                 .headers(headers -> {
@@ -50,6 +56,16 @@ public class ProxyHandler {
                             headers.addAll(name, values);
                         }
                     });
+                    // Add X-User-* headers to outgoing request from attributes
+                    if (userId != null && !userId.isEmpty()) {
+                        headers.set("X-User-Id", userId);
+                    }
+                    if (userEmail != null && !userEmail.isEmpty()) {
+                        headers.set("X-User-Email", userEmail);
+                    }
+                    if (userRole != null && !userRole.isEmpty()) {
+                        headers.set("X-User-Role", userRole);
+                    }
                 });
 
         Mono<WebClient.ResponseSpec> responseSpecMono;

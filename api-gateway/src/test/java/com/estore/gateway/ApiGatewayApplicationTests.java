@@ -3,7 +3,7 @@ package com.estore.gateway;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(properties = {"spring.main.web-application-type=reactive"})
 class ApiGatewayApplicationTests {
 
     @Test
