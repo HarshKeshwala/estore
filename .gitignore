@@ -1,3 +1,19 @@
+# Build output
+**/target/
 
-# ignore user specific IDE settings
-**/.idea/
+# IDE
+.idea/
+*.iml
+.vscode/
+*.swp
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+*.local
