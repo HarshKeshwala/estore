@@ -20,8 +20,10 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/actuator/**").permitAll()
-                        .requestMatchers("/cart/**", "/orders/**").permitAll()
-                        .anyRequest().denyAll()
+                        .requestMatchers("/cart/**",
+                                        "/orders/**",
+                                        "/error").permitAll()
+                        .anyRequest().permitAll()
                 );
 
         return http.build();
