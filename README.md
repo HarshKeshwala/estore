@@ -118,7 +118,7 @@ Manages shopping cart and orders.
 3. Client includes JWT in `Authorization: Bearer <token>` header
 4. API Gateway validates JWT and extracts claims
 5. Gateway forwards request with headers: `X-User-Id`, `X-User-Email`, `X-User-Role`
-6. Backend services trust these headers (no JWT validation needed)
+6. Backend services trust these headers (no JWT validation needed for now)
 
 ## Kafka Integration
 
