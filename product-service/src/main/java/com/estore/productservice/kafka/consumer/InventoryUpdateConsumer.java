@@ -5,6 +5,7 @@ import com.estore.productservice.product.service.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -19,7 +20,7 @@ public class InventoryUpdateConsumer {
     }
 
     @KafkaListener(topics = "${kafka.topics.inventory-update}", groupId = "${spring.kafka.consumer.group-id}")
-    public void consumeInventoryUpdate(InventoryUpdateEvent event) {
+    public void consumeInventoryUpdate(@Payload InventoryUpdateEvent event) {
         log.info("Received inventory update event: eventId={}, productId={}, quantityChange={}, orderId={}",
                 event.eventId(), event.productId(), event.quantityChange(), event.orderId());
 
