@@ -8,3 +8,4 @@ data:
   PRODUCT_SERVICE_URL: "http://product-service:8082"
   ORDER_SERVICE_URL: "http://order-service:8083"
   KAFKA_BOOTSTRAP_SERVERS: "kafka:9092"
+  OTEL_EXPORTER_OTLP_ENDPOINT: "http://alloy.estore:4318/v1/traces"
