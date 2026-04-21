@@ -79,6 +79,9 @@ nodes:
   - containerPort: 30080
     hostPort: 8080
     protocol: TCP
+  - containerPort: 30030
+    hostPort: 3000
+    protocol: TCP
 EOF
 
     echo_info "Kind cluster created successfully."
@@ -165,6 +168,9 @@ deploy_manifests() {
     echo_info "Deploying api-gateway..."
     kubectl apply -f k8s/api-gateway/
 
+    echo_info "Deploying observability stack..."
+    kubectl apply -f k8s/observability/
+
     echo_info "Manifests deployed successfully."
 }
 
@@ -183,6 +189,13 @@ wait_for_pods() {
 
     echo_info "Waiting for api-gateway..."
     kubectl wait --for=condition=ready pod -l app=api-gateway -n ${NAMESPACE} --timeout=180s || echo_warn "api-gateway may not be ready yet"
+
+    echo_info "Waiting for observability stack..."
+    kubectl wait --for=condition=ready pod -l app=prometheus -n ${NAMESPACE} --timeout=120s || echo_warn "prometheus may not be ready yet"
+    kubectl wait --for=condition=ready pod -l app=tempo -n ${NAMESPACE} --timeout=120s || echo_warn "tempo may not be ready yet"
+    kubectl wait --for=condition=ready pod -l app=loki -n ${NAMESPACE} --timeout=120s || echo_warn "loki may not be ready yet"
+    kubectl wait --for=condition=ready pod -l app=grafana -n ${NAMESPACE} --timeout=120s || echo_warn "grafana may not be ready yet"
+    kubectl rollout status daemonset/alloy -n ${NAMESPACE} --timeout=120s || echo_warn "alloy may not be ready yet"
 }
 
 # Show status
@@ -199,6 +212,9 @@ show_status() {
     echo_info "============================================"
     echo_info "Access URL: http://localhost:8080"
     echo_info "============================================"
+    echo ""
+    echo_info "Grafana:     http://localhost:3000 (admin/admin)"
+    echo_info "Prometheus:  (internal - access via Grafana)"
     echo ""
     echo "Test commands:"
     echo "  curl http://localhost:8080/actuator/health"
